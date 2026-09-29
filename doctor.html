@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Doctor Portal - Sri Sai Clinic</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-[#f8f4ea] min-h-screen">
+
+  <div class="role-nav">
+    <span><strong>Active View:</strong> Chief Dermatologist Consultation Desk</span>
+    <div class="role-links">
+      <a href="index.html">Patient Site</a>
+      <a href="receptionist.html">Receptionist</a>
+      <a href="doctor.html" class="active">Doctor Portal</a>
+      <a href="admin.html">Admin CMS</a>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-5 py-8">
+    
+    <!-- APPOINTMENT METRICS STATS CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+      <div class="soft-card p-6 bg-white border-l-4 border-[#284d43]">
+        <span class="text-xs font-bold uppercase tracking-wider text-[#587067]">Total Bookings Today</span>
+        <h3 id="docStatTotal" class="text-3xl font-bold font-serif text-[#284d43] mt-2">0</h3>
+        <p class="text-xs text-gray-400 mt-1">Walk-ins & Online requests</p>
+      </div>
+      <div class="soft-card p-6 bg-white border-l-4 border-[#d99a21]">
+        <span class="text-xs font-bold uppercase tracking-wider text-[#d99a21]">Waiting in Queue</span>
+        <h3 id="docStatWaiting" class="text-3xl font-bold font-serif text-[#d99a21] mt-2">0</h3>
+        <p class="text-xs text-gray-400 mt-1">Confirmed by reception</p>
+      </div>
+      <div class="soft-card p-6 bg-white border-l-4 border-[#3b82f6]">
+        <span class="text-xs font-bold uppercase tracking-wider text-[#3b82f6]">Consultations Done</span>
+        <h3 id="docStatDone" class="text-3xl font-bold font-serif text-[#3b82f6] mt-2">0</h3>
+        <p class="text-xs text-gray-400 mt-1">Prescriptions printed</p>
+      </div>
+    </div>
+
+    <!-- ACTIVE CONSULTATION QUEUE -->
+    <div class="portal-card">
+      <div class="mb-5">
+        <h2 class="font-serif text-2xl font-bold text-[#284d43]">Active Consultation Queue</h2>
+        <p class="text-[#587067] text-sm mt-1">Select a disease protocol to auto-fill prescriptions, edit notes, and finalize.</p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Patient Details</th>
+              <th>Slot & Locality</th>
+              <th style="width: 52%;">Clinical Diagnosis & Auto-Prescription Engine</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="doctorTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- COMPLETED CONSULTATION HISTORY -->
+    <div class="portal-card mt-8">
+      <div class="mb-4">
+        <h3 class="font-serif text-xl font-bold text-[#284d43]">Completed Consultations History</h3>
+        <p class="text-[#587067] text-xs">Past consultations for today. Re-print prescriptions at any time.</p>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Patient Details</th>
+              <th>Date & Slot</th>
+              <th>Diagnosis / Notes</th>
+              <th>Prescribed Medicines</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="doctorHistoryTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMAL PRESCRIPTION PRINT LAYOUT -->
+  <div id="printPrescriptionArea">
+    <div class="rx-print-header">
+      <div>
+        <h1 style="font-family:'Fraunces',serif; font-size:1.8rem; color:#284d43;">SRI SAI SKIN & HAIR CLINIC</h1>
+        <p style="font-size:0.9rem; color:#444;">Station Road, Near Puneeth Rajkumar Circle, Patil Nagar, Hospet-583201</p>
+        <p style="font-size:0.82rem; color:#666;">Phone: 9988443959 | 9988443818</p>
+      </div>
+      <div style="text-align: right;">
+        <h3 style="font-size:1.15rem; color:#284d43;">Dr. S. Sanjana Anand</h3>
+        <p style="font-size:0.85rem; color:#555;">M.B.B.S, M.D. (Dermatology)</p>
+        <p style="font-size:0.8rem; color:#777;">Reg No: KMC-94218</p>
+      </div>
+    </div>
+
+    <div class="rx-patient-info">
+      <div><strong>Patient:</strong> <span id="printName"></span></div>
+      <div><strong>Age:</strong> <span id="printAge"></span> yrs</div>
+      <div><strong>Date:</strong> <span id="printDate"></span></div>
+      <div><strong>Patient ID:</strong> <span id="printId"></span></div>
+    </div>
+
+    <div style="margin-bottom: 24px;">
+      <h4 style="font-size:0.95rem; text-transform:uppercase; color:#284d43; margin-bottom:6px;">Diagnosis & Clinical Notes</h4>
+      <p id="printDiagnosis" style="font-size:0.95rem; background:#fafafa; padding:10px; border-left:3px solid #284d43;"></p>
+    </div>
+
+    <h4 style="font-size:0.95rem; text-transform:uppercase; color:#284d43; margin-bottom:8px;">Rx (Prescribed Medications)</h4>
+    <table class="rx-table-print">
+      <thead>
+        <tr>
+          <th>Medicine / Brand</th>
+          <th>Dosage</th>
+          <th>Frequency (M-A-N)</th>
+          <th>Duration</th>
+          <th>Instructions</th>
+        </tr>
+      </thead>
+      <tbody id="printMedicinesBody"></tbody>
+    </table>
+
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:80px;">
+      <div style="font-size:0.8rem; color:#777;">
+        <p>• Review after 15 days or complete cycle.</p>
+        <p>• Avoid sun exposure without prescribed sunscreen.</p>
+      </div>
+      <div style="text-align:center;">
+        <p style="border-top:1px solid #222; padding-top:4px; font-weight:bold; width:200px;">Dr. S. Sanjana Anand</p>
+        <p style="font-size:0.75rem; color:#666;">Consulting Dermatologist</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="shared.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

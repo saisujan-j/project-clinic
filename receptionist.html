@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Receptionist Desk - Sri Sai Clinic</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-[#f8f4ea] min-h-screen">
+
+  <div class="role-nav">
+    <span><strong>Active View:</strong> Sri Sai Skin & Hair Clinic</span>
+    <div class="role-links">
+      <a href="index.html">Patient Site</a>
+      <a href="receptionist.html" class="active">Receptionist</a>
+      <a href="doctor.html">Doctor Portal</a>
+      <a href="admin.html">Admin CMS</a>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-5 py-10">
+    <div class="soft-card bg-white p-6 sm:p-8 mb-8 flex justify-between items-center flex-wrap gap-4">
+      <div>
+        <h3 class="font-serif text-xl font-bold text-[#284d43]">Doctor Intake Availability</h3>
+        <p class="text-xs text-[#587067] mt-1">Toggle to pause or open online patient appointments on the website.</p>
+      </div>
+      <div class="flex gap-3 items-center flex-wrap">
+        <span id="availabilityBadge" class="badge badge-confirmed">Intake Open</span>
+        <button id="toggleAvailabilityBtn" class="primary-button px-4 py-2 text-xs font-bold bg-[#dc2626]">Pause Bookings</button>
+        <button id="openWalkinModalBtn" class="btn-outline px-4 py-2 text-xs font-bold">+ Direct Walk-In</button>
+      </div>
+    </div>
+
+    <div class="portal-card">
+      <h3 class="font-serif text-2xl font-bold mb-1 text-[#284d43]">Patient Intake & Consultation Triage</h3>
+      <p class="text-[#587067] text-sm mb-6">Enter clinic weight and gender, then click "Assign to Doctor" to send the patient into the consultation queue.</p>
+
+      <div class="overflow-x-auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Sl. No.</th>
+              <th>Patient Details</th>
+              <th style="min-width: 200px;">Weight & Gender</th>
+              <th>Booking Time</th>
+              <th>Locality</th>
+              <th>Assigned Slot</th>
+              <th>Status</th>
+              <th>Doctor Queue Action</th>
+            </tr>
+          </thead>
+          <tbody id="receptionistTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEDICATED WEIGHT & GENDER UPDATE MODAL -->
+  <div id="vitalsModal" class="modal-overlay">
+    <div class="modal-content max-w-sm">
+      <button class="modal-close" onclick="closeVitalsModal()">&times;</button>
+      <h3 class="font-serif text-xl font-bold mb-1 text-[#284d43]">Update Patient Vitals</h3>
+      <p id="vitalsPatientNameDisplay" class="text-xs text-[#587067] mb-4"></p>
+      <input type="hidden" id="vitalsAptId" />
+
+      <div class="grid gap-3">
+        <div>
+          <label class="block text-xs font-bold mb-1 text-[#24342f]">Patient Gender</label>
+          <select id="vitalsGender" class="form-control text-sm" required>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1 text-[#24342f]">Weight Measured at Clinic (kg)</label>
+          <input type="number" id="vitalsWeight" class="form-control text-sm" placeholder="e.g. 58.5" step="0.1" required />
+        </div>
+        <button onclick="savePatientVitals()" class="primary-button w-full py-2.5 font-bold mt-2 text-sm">
+          💾 Save Weight & Gender
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ASSIGN TO DOCTOR MODAL -->
+  <div id="assignDoctorModal" class="modal-overlay">
+    <div class="modal-content max-w-sm">
+      <button class="modal-close" onclick="closeAssignModal()">&times;</button>
+      <h3 class="font-serif text-xl font-bold mb-1 text-[#284d43]">Assign to Doctor's Room</h3>
+      <p id="assignPatientNameDisplay" class="text-xs text-[#587067] mb-4"></p>
+      <input type="hidden" id="assignAptId" />
+
+      <div class="grid gap-3">
+        <div>
+          <label class="block text-xs font-bold mb-1 text-[#24342f]">Consultation Time Slot</label>
+          <select id="assignedTimeSlot" class="form-control text-sm">
+            <option value="Immediate / Next in Queue">Immediate / Next in Queue</option>
+            <option value="10:00 AM">10:00 AM</option>
+            <option value="10:30 AM">10:30 AM</option>
+            <option value="11:00 AM">11:00 AM</option>
+            <option value="11:30 AM">11:30 AM</option>
+            <option value="12:00 PM">12:00 PM</option>
+            <option value="12:30 PM">12:30 PM</option>
+            <option value="05:00 PM">05:00 PM</option>
+            <option value="05:30 PM">05:30 PM</option>
+            <option value="06:00 PM">06:00 PM</option>
+            <option value="06:30 PM">06:30 PM</option>
+            <option value="07:00 PM">07:00 PM</option>
+            <option value="07:30 PM">07:30 PM</option>
+          </select>
+        </div>
+        <button onclick="confirmSendToDoctor()" class="primary-button w-full py-3 font-bold mt-2 text-sm">
+          Send to Doctor's Screen ➔
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIRECT WALK-IN REGISTRATION MODAL -->
+  <div id="walkinModal" class="modal-overlay">
+    <div class="modal-content max-w-lg">
+      <button class="modal-close" onclick="closeWalkinModal()">&times;</button>
+      <h3 class="font-serif text-xl font-bold mb-4 text-[#284d43]">Direct Walk-in Patient Entry</h3>
+      <form id="walkinForm" class="grid gap-3 sm:grid-cols-2">
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold mb-1">Patient Name</label>
+          <input type="text" id="wName" class="form-control text-sm" required placeholder="Full Name" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Mobile Number</label>
+          <input type="tel" id="wPhone" class="form-control text-sm" required placeholder="10-digit number" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Age</label>
+          <input type="number" id="wAge" class="form-control text-sm" required placeholder="Years" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Gender</label>
+          <select id="wGender" class="form-control text-sm" required>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Weight (in kg)</label>
+          <input type="number" id="wWeight" class="form-control text-sm" placeholder="e.g. 62" step="0.1" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Locality / Place</label>
+          <input type="text" id="wPlace" class="form-control text-sm" required placeholder="Hospet" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Arrival Time</label>
+          <input type="time" id="wTime" class="form-control text-sm" required />
+        </div>
+        <div class="sm:col-span-2 mt-2">
+          <button type="submit" class="primary-button w-full py-3 font-bold">Register Walk-in Patient</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="shared.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

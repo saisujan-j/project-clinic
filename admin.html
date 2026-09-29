@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin CMS & Analytics - Sri Sai Clinic</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body class="bg-[#f8f4ea] min-h-screen">
+
+  <div class="role-nav">
+    <span><strong>Active View:</strong> Central Clinic Administration & Analytics</span>
+    <div class="role-links">
+      <a href="index.html">Patient Site</a>
+      <a href="receptionist.html">Receptionist</a>
+      <a href="doctor.html">Doctor Portal</a>
+      <a href="admin.html" class="active">Admin CMS</a>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-5 py-8">
+    <!-- Header -->
+    <div class="flex justify-between items-center flex-wrap gap-4 mb-6">
+      <div>
+        <h2 class="font-serif text-3xl font-bold text-[#284d43]">Clinic Management Console</h2>
+        <p class="text-[#587067] text-sm mt-0.5">Track appointment volume, manage treatments, upload room photos, and set protocols.</p>
+      </div>
+    </div>
+
+    <!-- Clean Dashboard Navigation Tabs -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-[#d8ded5] mb-8" id="adminTabsNav">
+      <button onclick="switchAdminTab('analytics')" id="tabBtn-analytics" class="admin-tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-[#284d43] text-white shadow-sm transition">
+        📊 Analytics & Reports
+      </button>
+      <button onclick="switchAdminTab('treatments')" id="tabBtn-treatments" class="admin-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-[#456057] border border-[#d8ded5] hover:bg-[#edf3ee] transition">
+        ✨ Treatments & Catalog
+      </button>
+      <button onclick="switchAdminTab('protocols')" id="tabBtn-protocols" class="admin-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-[#456057] border border-[#d8ded5] hover:bg-[#edf3ee] transition">
+        📋 Disease Protocols
+      </button>
+      <button onclick="switchAdminTab('clinic')" id="tabBtn-clinic" class="admin-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-[#456057] border border-[#d8ded5] hover:bg-[#edf3ee] transition">
+        🏥 Doctors & Premises
+      </button>
+      <button onclick="switchAdminTab('branding')" id="tabBtn-branding" class="admin-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-white text-[#456057] border border-[#d8ded5] hover:bg-[#edf3ee] transition">
+        🎨 Branding & Logo
+      </button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 1: ANALYTICS & BAR GRAPH               -->
+    <!-- ========================================== -->
+    <div id="tabPane-analytics" class="admin-tab-pane">
+      <!-- Metric Counters -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="soft-card p-5 bg-white border-l-4 border-[#284d43]">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-[#587067]">Total Lifetime Bookings</span>
+          <h3 id="statTotalAll" class="text-2xl font-bold font-serif text-[#284d43] mt-1.5">0</h3>
+          <p class="text-[11px] text-gray-400 mt-0.5">All registered appointments</p>
+        </div>
+        <div class="soft-card p-5 bg-white border-l-4 border-[#10b981]">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-[#10b981]">Consultations Completed</span>
+          <h3 id="statCompletedAll" class="text-2xl font-bold font-serif text-[#10b981] mt-1.5">0</h3>
+          <p class="text-[11px] text-gray-400 mt-0.5">Rx generated & finalized</p>
+        </div>
+        <div class="soft-card p-5 bg-white border-l-4 border-[#d99a21]">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-[#d99a21]">Direct Walk-Ins</span>
+          <h3 id="statWalkinAll" class="text-2xl font-bold font-serif text-[#d99a21] mt-1.5">0</h3>
+          <p class="text-[11px] text-gray-400 mt-0.5">Registered at reception desk</p>
+        </div>
+        <div class="soft-card p-5 bg-white border-l-4 border-[#ef4444]">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-[#ef4444]">Not Visited / Declined</span>
+          <h3 id="statCancelledAll" class="text-2xl font-bold font-serif text-[#ef4444] mt-1.5">0</h3>
+          <p class="text-[11px] text-gray-400 mt-0.5">Patient missed appointment</p>
+        </div>
+      </div>
+
+      <!-- Main Analytics Bar Graph Card -->
+      <div class="portal-card bg-white">
+        <div class="flex justify-between items-center flex-wrap gap-4 pb-4 mb-5 border-b border-[#d8ded5]">
+          <div>
+            <h3 class="font-serif text-xl font-bold text-[#284d43]">Appointment Volume Trends</h3>
+            <p class="text-xs text-[#587067] mt-0.5">Visual report of patient consults across chosen time range.</p>
+          </div>
+          <!-- Graph Granularity Selector -->
+          <div class="flex items-center gap-1.5 bg-[#f8f4ea] p-1.5 rounded-xl border border-[#d8ded5]">
+            <button onclick="setChartRange('daily')" id="rangeBtn-daily" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[#284d43] text-white shadow-xs transition">
+              Daily (Last 7 Days)
+            </button>
+            <button onclick="setChartRange('weekly')" id="rangeBtn-weekly" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-[#456057] hover:bg-white transition">
+              Weekly (Last 4 Weeks)
+            </button>
+            <button onclick="setChartRange('monthly')" id="rangeBtn-monthly" class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-[#456057] hover:bg-white transition">
+              Monthly (This Year)
+            </button>
+          </div>
+        </div>
+
+        <div class="relative w-full h-[320px] sm:h-[380px]">
+          <canvas id="appointmentChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: TREATMENTS & BEFORE/AFTER CATALOG   -->
+    <!-- ========================================== -->
+    <div id="tabPane-treatments" class="admin-tab-pane hidden">
+      <div class="portal-card bg-white">
+        <div class="flex justify-between items-center flex-wrap gap-4 pb-4 mb-5 border-b border-[#d8ded5]">
+          <div>
+            <h3 class="font-serif text-xl font-bold text-[#284d43]">Treatments & Before/After Catalog</h3>
+            <p class="text-xs text-[#587067] mt-0.5">All treatments configured here immediately show on the patient website with full Before & After photo modals.</p>
+          </div>
+          <button class="primary-button text-xs py-2 px-4 font-bold inline-flex items-center gap-1.5" onclick="openAddTreatmentModal()">
+            + Add New Treatment
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Treatment Title</th>
+                <th>Description & Key Highlights</th>
+                <th>Before / After Photos</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminTreatmentsListBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: DISEASE PROTOCOLS & EXCEL           -->
+    <!-- ========================================== -->
+    <div id="tabPane-protocols" class="admin-tab-pane hidden">
+      <div class="portal-card bg-white">
+        <div class="flex justify-between items-center flex-wrap gap-4 pb-4 mb-5 border-b border-[#d8ded5]">
+          <div>
+            <h3 class="font-serif text-xl font-bold text-[#284d43]">Prescription Protocols & Medicine Presets</h3>
+            <p class="text-xs text-[#587067] mt-0.5">Auto-fills diagnoses and medication schedules on the doctor's consultation screen with 1 click.</p>
+          </div>
+          <div class="flex gap-2 flex-wrap">
+            <input type="file" id="excelFileInput" accept=".xlsx, .xls, .csv" class="hidden" />
+            <button class="btn-outline text-xs py-2 px-3.5 font-bold" onclick="document.getElementById('excelFileInput').click()">
+              📁 Import Excel / CSV
+            </button>
+            <button class="primary-button text-xs py-2 px-3.5 font-bold" onclick="openAddPresetModal()">
+              + Add Protocol
+            </button>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Disease Name</th>
+                <th>Default Clinical Notes</th>
+                <th>Prescribed Medicines</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminPresetsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 4: DOCTORS & PREMISES (WITH PHOTOS)    -->
+    <!-- ========================================== -->
+    <div id="tabPane-clinic" class="admin-tab-pane hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Doctors Table -->
+        <div class="portal-card bg-white">
+          <div class="flex justify-between items-center pb-3 mb-4 border-b border-[#d8ded5]">
+            <div>
+              <h4 class="font-serif text-lg font-bold text-[#284d43]">Chief Specialists</h4>
+              <p class="text-[11px] text-[#587067]">Doctor profiles shown on website</p>
+            </div>
+            <button class="primary-button text-xs py-1.5 px-3 font-bold" onclick="openAddDoctorModal()">+ Add Doctor</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table>
+              <thead>
+                <tr><th>Photo</th><th>Name</th><th>Role</th><th>Action</th></tr>
+              </thead>
+              <tbody id="adminDoctorsBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Hospital Premises Table -->
+        <div class="portal-card bg-white">
+          <div class="flex justify-between items-center pb-3 mb-4 border-b border-[#d8ded5]">
+            <div>
+              <h4 class="font-serif text-lg font-bold text-[#284d43]">Hospital Premises & Suites</h4>
+              <p class="text-[11px] text-[#587067]">Rooms & infrastructure photos</p>
+            </div>
+            <button class="primary-button text-xs py-1.5 px-3 font-bold" onclick="openAddPremiseModal()">+ Add Room</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table>
+              <thead>
+                <tr><th>Photo</th><th>Tag</th><th>Room Title</th><th>Action</th></tr>
+              </thead>
+              <tbody id="adminPremisesBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 5: BRANDING & CLINIC LOGO              -->
+    <!-- ========================================== -->
+    <div id="tabPane-branding" class="admin-tab-pane hidden">
+      <div class="portal-card bg-white max-w-xl">
+        <h3 class="font-serif text-xl font-bold text-[#284d43] mb-1">Clinic Brand & Website Logo</h3>
+        <p class="text-xs text-[#587067] mb-5">Upload a new clinic logo to sync across all header navigation bars simultaneously.</p>
+        <form id="updateLogoForm" class="grid gap-4">
+          <div>
+            <label class="block text-xs font-bold mb-1 text-[#24342f]">Select Logo File (PNG / JPEG)</label>
+            <input type="file" id="newLogoFile" accept="image/*" class="form-control text-xs" required />
+          </div>
+          <button type="submit" class="primary-button py-2.5 px-6 font-bold text-xs">
+            Upload & Sync Logo
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD TREATMENT WITH BEFORE & AFTER PHOTOS -->
+  <div id="addTrtModal" class="modal-overlay">
+    <div class="modal-content max-w-xl">
+      <button class="modal-close" onclick="closeAddTreatmentModal()">&times;</button>
+      <h3 class="font-serif text-xl font-bold mb-4 text-[#284d43]">Add Clinical Treatment</h3>
+      <form id="addTreatmentFullForm" class="grid gap-3 sm:grid-cols-2">
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold mb-1">Brochure Category</label>
+          <select id="newTrtCategory" class="form-control text-sm" required>
+            <option value="Skin Treatments">Skin Treatments</option>
+            <option value="Hair Treatments">Hair Treatments</option>
+            <option value="Laser Treatments">Laser Treatments</option>
+            <option value="Aesthetic Care">Aesthetic Care</option>
+          </select>
+        </div>
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold mb-1">Treatment Name</label>
+          <input type="text" id="newTrtTitle" class="form-control text-sm" placeholder="e.g. Pigmentation & Melasma" required />
+        </div>
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold mb-1">Explanation & Clinical Description</label>
+          <textarea id="newTrtDesc" class="form-control text-sm" rows="2" placeholder="Clinical explanation..." required></textarea>
+        </div>
+        <div class="sm:col-span-2">
+          <label class="block text-xs font-bold mb-1">Key Benefits / Highlights (One per line)</label>
+          <textarea id="newTrtBenefits" class="form-control text-sm" rows="3" placeholder="Fades deep sun spots & melasma&#10;Inhibits melanin overproduction&#10;Restores even radiance" required></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Upload Before Photo</label>
+          <input type="file" id="newTrtBeforeFile" accept="image/*" class="text-xs w-full" required />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Upload After Photo</label>
+          <input type="file" id="newTrtAfterFile" accept="image/*" class="text-xs w-full" required />
+        </div>
+        <div class="sm:col-span-2 mt-2">
+          <button type="submit" id="saveTreatmentBtn" class="primary-button w-full py-3 font-bold">Publish Treatment to Website</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD DISEASE PROTOCOL -->
+  <div id="addPresetModal" class="modal-overlay">
+    <div class="modal-content max-w-xl">
+      <button class="modal-close" onclick="closeAddPresetModal()">&times;</button>
+      <h3 class="font-serif text-xl font-bold mb-4 text-[#284d43]">Add Disease Protocol Preset</h3>
+      <form id="addPresetForm" class="grid gap-3">
+        <div>
+          <label class="block text-xs font-bold mb-1">Disease Name</label>
+          <input type="text" id="newPresetDisease" class="form-control text-sm" required />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Standard Clinical Diagnosis Notes</label>
+          <textarea id="newPresetNotes" class="form-control text-sm" rows="2" required></textarea>
+        </div>
+        <div>
+          <div class="flex justify-between items-center mb-1.5">
+            <label class="text-xs font-bold">Prescribed Medicines</label>
+            <button type="button" class="primary-button text-[11px] py-1 px-2.5" onclick="addPresetMedicineRow()">+ Add Drug</button>
+          </div>
+          <table class="rx-table">
+            <thead>
+              <tr><th>Drug</th><th>Dose</th><th>Freq</th><th>Days</th><th>Instructions</th><th></th></tr>
+            </thead>
+            <tbody id="newPresetMedRows">
+              <tr>
+                <td><input type="text" class="rx-input p-name" placeholder="Drug name" required /></td>
+                <td><input type="text" class="rx-input p-dose" placeholder="1 Tab" /></td>
+                <td><input type="text" class="rx-input p-freq" placeholder="1-0-1" /></td>
+                <td><input type="text" class="rx-input p-dur" placeholder="15 Days" /></td>
+                <td><input type="text" class="rx-input p-inst" placeholder="After food" /></td>
+                <td><button type="button" class="btn-del-row" onclick="this.closest('tr').remove()">✕</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button type="submit" class="primary-button w-full py-2.5 font-bold mt-2">Save Protocol</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD DOCTOR (WITH PHOTO UPLOAD) -->
+  <div id="addDocModal" class="modal-overlay">
+    <div class="modal-content max-w-md">
+      <button class="modal-close" onclick="closeAddDoctorModal()">&times;</button>
+      <h3 class="font-serif text-xl font-bold mb-4 text-[#284d43]">Add Doctor Profile</h3>
+      <form id="addDocForm" class="grid gap-3">
+        <div>
+          <label class="block text-xs font-bold mb-1">Doctor Name</label>
+          <input type="text" id="newDocName" class="form-control text-sm" placeholder="e.g. Dr. S. Sanjana Anand" required />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Qualifications</label>
+          <input type="text" id="newDocQual" class="form-control text-sm" placeholder="e.g. M.B.B.S, M.D. (Dermatology)" required />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Consultation Timings</label>
+          <input type="text" id="newDocTimings" class="form-control text-sm" placeholder="e.g. 10:00 AM – 1:00 PM & 5:00 PM – 8:00 PM" required />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Specialty / Role</label>
+          <input type="text" id="newDocRole" class="form-control text-sm" placeholder="e.g. Consultant Dermatologist" required />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Doctor Photo</label>
+          <input type="file" id="newDocPhotoFile" accept="image/*" class="text-xs w-full" />
+        </div>
+        <button type="submit" id="saveDoctorBtn" class="primary-button w-full py-2.5 font-bold mt-2">Save Doctor</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD PREMISE (WITH ROOM PHOTO UPLOAD) -->
+  <div id="addPremiseModal" class="modal-overlay">
+    <div class="modal-content max-w-md">
+      <button class="modal-close" onclick="closeAddPremiseModal()">&times;</button>
+      <h3 class="font-serif text-xl font-bold mb-4 text-[#284d43]">Add Hospital Premise / Room</h3>
+      <form id="addPremiseForm" class="grid gap-3">
+        <div>
+          <label class="block text-xs font-bold mb-1">Badge / Tag</label>
+          <input type="text" id="newPremiseTag" class="form-control text-sm" placeholder="e.g. Laser Suite" required />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Room Title</label>
+          <input type="text" id="newPremiseTitle" class="form-control text-sm" placeholder="e.g. Sterile Advanced Laser Suite" required />
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Description</label>
+          <textarea id="newPremiseDesc" class="form-control text-sm" placeholder="Room features..." required></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Checklist Points (One per line)</label>
+          <textarea id="newPremiseChecklist" class="form-control text-sm" placeholder="Point 1&#10;Point 2"></textarea>
+        </div>
+        <div>
+          <label class="block text-xs font-bold mb-1">Room Photo</label>
+          <input type="file" id="newPremisePhotoFile" accept="image/*" class="text-xs w-full" />
+        </div>
+        <button type="submit" id="savePremiseBtn" class="primary-button w-full py-2.5 font-bold mt-2">Save Room</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="shared.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

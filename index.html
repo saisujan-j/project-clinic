@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sri Sai Skin & Hair Clinic | Hospet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body id="patient-site">
+
+  <div class="role-nav">
+    <span><strong>Active View:</strong> Sri Sai Skin & Hair Clinic</span>
+    <div class="role-links">
+      <a href="index.html">Patient Site</a>
+      <a href="receptionist.html">Receptionist</a>
+      <a href="doctor.html">Doctor Portal</a>
+      <a href="admin.html">Admin CMS</a>
+    </div>
+  </div>
+
+  <div class="site-shell bg-[#f8f4ea]">
+   <header class="w-full sticky top-[38px] z-30 border-b border-[#d8ded5] bg-[#fffdf8eF] backdrop-blur">
+      <div class="w-full max-w-7xl mx-auto px-5 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- DYNAMIC LOGO LINKED TO FIREBASE -->
+        <img id="globalClinicLogo" src="WhatsApp%20Image%202026-09-27%20at%205.08.24%20PM.jpeg" class="h-12 w-12 rounded-full object-cover ring-2 ring-[#d99a21]" alt="Sri Sai Clinic Logo" />
+        <div>
+          <p class="font-bold leading-tight font-serif text-lg">Sri Sai Skin & Hair Clinic</p>
+          <p class="text-xs text-[#587067]">Hospet-583201 • Complete Skin, Hair & Laser Solutions</p>
+        </div>
+      </div>
+      <nav class="hidden md:flex items-center gap-6">
+        <a class="text-sm font-semibold text-[#456057] hover:text-[#d99a21]" href="#services">Treatments</a>
+        <a class="text-sm font-semibold text-[#456057] hover:text-[#d99a21]" href="#premises">Hospital & Hygiene</a>
+        <a class="text-sm font-semibold text-[#456057] hover:text-[#d99a21]" href="#doctors">Specialists</a>
+        <a class="text-sm font-semibold text-[#456057] hover:text-[#d99a21]" href="#location">Contact</a>
+        <a class="primary-button rounded-full px-5 py-2 text-sm font-bold" href="#book">Book Appointment</a>
+      </nav>
+      </div>
+   </header>
+
+   <main class="max-w-7xl mx-auto px-5 py-8">
+    <!-- Promotional Billboard -->
+    <section class="soft-card bg-gradient-to-br from-[#284d43] to-[#17342c] text-white p-8 sm:p-12 mb-12 flex justify-between items-center flex-wrap gap-6 shadow-[10px_10px_0_rgba(40,77,67,0.15)]">
+      <div class="max-w-2xl">
+        <span class="eyebrow !text-[#d99a21]">Hospital-Grade Laser Center</span>
+        <h2 class="mt-2 text-3xl sm:text-4xl font-bold font-serif">Experience Flawless Skin & Healthy Hair in a 100% Sterile Environment</h2>
+        <p class="mt-4 text-[#dce7df] text-sm sm:text-base leading-7">Combining world-class dermatology technology—including FDA-Certified Artemis-I Diode, Q'Laze Nd:YAG Laser, and Fractional CO2 Laser—with strict clinical hygiene protocols.</p>
+        <div class="mt-6 flex gap-3 flex-wrap">
+          <a href="tel:+919988443959" class="bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2 rounded-full text-xs font-semibold transition inline-block">📞 9988443959</a>
+          <a href="tel:+919988443818" class="bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2 rounded-full text-xs font-semibold transition inline-block">📞 9988443818</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=Sri%20Sai%20Skin%20%26%20Hair%20Clinic%20Station%20Rd%2C%20near%20Puneeth%20Rajkumar%20Circle%2C%20adjacent%20to%20Ashwini%20Hospital%2C%20Patel%20Nagar%2C%20Hosapete%2C%20Karnataka%20583201%2C%20India" target="_blank" class="bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2 rounded-full text-xs font-semibold transition inline-block">
+            📍 Near Puneeth Rajkumar Circle, Hospet
+          </a>
+        </div>
+      </div>
+      <div>
+        <a href="#book" class="bg-white text-[#284d43] px-6 py-4 rounded-xl font-bold shadow-[4px_4px_0_#111] hover:translate-x-[-2px] hover:translate-y-[-2px] transition inline-block">Book Consultation</a>
+      </div>
+    </section>
+
+    <!-- Hygiene & Safety Highlights -->
+    
+
+    <!-- Specialized Treatments Section (Categorized Flow) -->
+    <section id="services" class="mb-16">
+      <p class="eyebrow text-center">Comprehensive Clinic Portfolio</p>
+      <h3 class="text-3xl text-center font-bold font-serif mt-2">Specialized Treatments & Clinical Care</h3>
+      <p class="text-center text-[#587067] max-w-xl mx-auto mt-3 text-sm">Select a treatment department below to explore available clinical procedures and before/after case studies.</p>
+
+      <!-- Category Filter Pills (Visible when inside a category) -->
+      <div id="categoryPillNav" class="hidden flex justify-center gap-2 sm:gap-3 flex-wrap mt-8">
+        <button onclick="showCategoriesOverview()" class="px-4 py-2 rounded-full text-xs sm:text-sm font-bold border border-[#d8ded5] bg-white text-[#284d43] hover:bg-[#edf3ee] transition inline-flex items-center gap-1">
+          ← Back to All Categories
+        </button>
+        <button onclick="selectCategory('Skin Treatments')" id="pill-Skin" class="category-tab-btn px-4 py-2 rounded-full text-xs sm:text-sm font-bold border border-[#d8ded5] bg-white text-[#456057] transition">
+          🧼 Skin Care
+        </button>
+        <button onclick="selectCategory('Hair Treatments')" id="pill-Hair" class="category-tab-btn px-4 py-2 rounded-full text-xs sm:text-sm font-bold border border-[#d8ded5] bg-white text-[#456057] transition">
+          💇 Hair Care
+        </button>
+        <button onclick="selectCategory('Laser Treatments')" id="pill-Laser" class="category-tab-btn px-4 py-2 rounded-full text-xs sm:text-sm font-bold border border-[#d8ded5] bg-white text-[#456057] transition">
+          ⚡ Laser Tech
+        </button>
+        <button onclick="selectCategory('Aesthetic Care')" id="pill-Aesthetic" class="category-tab-btn px-4 py-2 rounded-full text-xs sm:text-sm font-bold border border-[#d8ded5] bg-white text-[#456057] transition">
+          ✨ Aesthetic Care
+        </button>
+      </div>
+
+      <!-- 1. INITIAL VIEW: 4 MAIN CATEGORY CARDS -->
+      <div id="categoriesOverviewGrid" class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- Skin Care -->
+        <div onclick="selectCategory('Skin Treatments')" class="soft-card p-6 bg-white cursor-pointer hover:shadow-lg hover:border-[#284d43] transition flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-[#eef5f0] text-[#284d43] flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">🧼</div>
+            <span class="eyebrow !text-[#d99a21] block mb-1">Dermatology Care</span>
+            <h4 class="font-serif text-xl font-bold text-[#284d43] mb-2">Skin Treatments</h4>
+            <p class="text-xs text-[#587067] leading-relaxed mb-4">Targeted clinical solutions for active acne, cystic pimples, dark spots, melasma, and deep scars.</p>
+          </div>
+          <button class="btn-outline w-full text-xs font-bold py-2.5 group-hover:bg-[#284d43] group-hover:text-white transition">
+            View Skin Concerns ➔
+          </button>
+        </div>
+
+        <!-- Hair Care -->
+        <div onclick="selectCategory('Hair Treatments')" class="soft-card p-6 bg-white cursor-pointer hover:shadow-lg hover:border-[#284d43] transition flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-[#eef5f0] text-[#284d43] flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">💇</div>
+            <span class="eyebrow !text-[#d99a21] block mb-1">Trichology Solutions</span>
+            <h4 class="font-serif text-xl font-bold text-[#284d43] mb-2">Hair Treatments</h4>
+            <p class="text-xs text-[#587067] leading-relaxed mb-4">Autologous PRP growth-factor therapy, alopecia control, root strengthening, and dandruff treatments.</p>
+          </div>
+          <button class="btn-outline w-full text-xs font-bold py-2.5 group-hover:bg-[#284d43] group-hover:text-white transition">
+            View Hair Concerns ➔
+          </button>
+        </div>
+
+        <!-- Laser Tech -->
+        <div onclick="selectCategory('Laser Treatments')" class="soft-card p-6 bg-white cursor-pointer hover:shadow-lg hover:border-[#284d43] transition flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-[#eef5f0] text-[#284d43] flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">⚡</div>
+            <span class="eyebrow !text-[#d99a21] block mb-1">Hospital Laser Suite</span>
+            <h4 class="font-serif text-xl font-bold text-[#284d43] mb-2">Laser Treatments</h4>
+            <p class="text-xs text-[#587067] leading-relaxed mb-4">FDA-approved Q-Switched Nd:YAG, Artemis-I Diode permanent hair reduction, and Fractional CO2.</p>
+          </div>
+          <button class="btn-outline w-full text-xs font-bold py-2.5 group-hover:bg-[#284d43] group-hover:text-white transition">
+            View Laser Services ➔
+          </button>
+        </div>
+
+        <!-- Aesthetic Care -->
+        <div onclick="selectCategory('Aesthetic Care')" class="soft-card p-6 bg-white cursor-pointer hover:shadow-lg hover:border-[#284d43] transition flex flex-col justify-between group">
+          <div>
+            <div class="w-12 h-12 rounded-2xl bg-[#eef5f0] text-[#284d43] flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition">✨</div>
+            <span class="eyebrow !text-[#d99a21] block mb-1">Medi-Facials & Peels</span>
+            <h4 class="font-serif text-xl font-bold text-[#284d43] mb-2">Aesthetic Care</h4>
+            <p class="text-xs text-[#587067] leading-relaxed mb-4">Chemical laser peel resurfacing, stretch mark fading, skin boosters, and complexion brightening.</p>
+          </div>
+          <button class="btn-outline w-full text-xs font-bold py-2.5 group-hover:bg-[#284d43] group-hover:text-white transition">
+            View Aesthetic Services ➔
+          </button>
+        </div>
+      </div>
+
+      <!-- 2. CONCERNS CONTAINER (Shows only when category is clicked) -->
+      <div id="categoryActiveHeader" class="hidden mt-8 mb-4 flex justify-between items-center flex-wrap gap-2">
+        <h4 id="categoryActiveTitle" class="font-serif text-xl font-bold text-[#284d43]"></h4>
+        <span id="categoryActiveCount" class="text-xs text-[#587067] font-semibold"></span>
+      </div>
+      <div id="treatmentsContainer" class="hidden mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"></div>
+    </section>
+
+    <!-- TREATMENT DETAILS & BEFORE/AFTER MODAL POPUP -->
+    <div id="treatmentDetailModal" class="modal-overlay">
+      <div class="modal-content max-w-2xl bg-white p-6 sm:p-8 rounded-2xl relative shadow-2xl">
+        <button class="modal-close" onclick="closeTreatmentModal()">&times;</button>
+        <span id="modalTrtBadge" class="eyebrow !text-[#d99a21] block mb-1"></span>
+        <h3 id="modalTrtTitle" class="font-serif text-2xl font-bold text-[#284d43] mb-2"></h3>
+        <p id="modalTrtDesc" class="text-sm text-[#587067] mb-4"></p>
+
+        <!-- Key Clinical Benefits -->
+        <div class="mb-5 bg-[#f8f4ea] p-4 rounded-xl border border-[#d8ded5]">
+          <h5 class="text-xs font-bold text-[#284d43] uppercase tracking-wider mb-2">Treatment Highlights & Benefits:</h5>
+          <ul id="modalTrtBenefits" class="space-y-1.5 text-xs text-[#24342f]"></ul>
+        </div>
+
+        <!-- Before & After Comparison Photos -->
+        <h5 class="text-xs font-bold text-[#284d43] uppercase tracking-wider mb-2">Clinical Results (Before & After):</h5>
+        <div class="grid grid-cols-2 gap-3 mb-6">
+          <div class="relative rounded-xl overflow-hidden bg-gray-100 border border-[#d8ded5]">
+            <span class="absolute top-2 left-2 bg-[#24342f]/80 text-white text-[10px] px-2 py-0.5 rounded font-bold">Before</span>
+            <img id="modalTrtBeforeImg" src="" alt="Before" class="w-full h-44 object-cover" />
+          </div>
+          <div class="relative rounded-xl overflow-hidden bg-gray-100 border border-[#d8ded5]">
+            <span class="absolute top-2 left-2 bg-[#d99a21] text-white text-[10px] px-2 py-0.5 rounded font-bold">After Care</span>
+            <img id="modalTrtAfterImg" src="" alt="After" class="w-full h-44 object-cover" />
+          </div>
+        </div>
+
+        <button onclick="bookTreatmentFromModal()" class="primary-button w-full py-3 font-bold text-sm">Book This Treatment Now</button>
+      </div>
+    </div>
+
+    <!-- TREATMENT DETAILS & BEFORE/AFTER MODAL POPUP -->
+    <div id="treatmentDetailModal" class="modal-overlay">
+      <div class="modal-content max-w-2xl bg-white p-6 sm:p-8 rounded-2xl relative shadow-2xl">
+        <button class="modal-close" onclick="closeTreatmentModal()">&times;</button>
+        <span id="modalTrtBadge" class="eyebrow !text-[#d99a21] block mb-1"></span>
+        <h3 id="modalTrtTitle" class="font-serif text-2xl font-bold text-[#284d43] mb-2"></h3>
+        <p id="modalTrtDesc" class="text-sm text-[#587067] mb-4"></p>
+
+        <!-- Key Clinical Benefits -->
+        <div class="mb-5 bg-[#f8f4ea] p-4 rounded-xl border border-[#d8ded5]">
+          <h5 class="text-xs font-bold text-[#284d43] uppercase tracking-wider mb-2">Treatment Highlights & Benefits:</h5>
+          <ul id="modalTrtBenefits" class="space-y-1.5 text-xs text-[#24342f]"></ul>
+        </div>
+
+        <!-- Before & After Comparison Photos -->
+        <h5 class="text-xs font-bold text-[#284d43] uppercase tracking-wider mb-2">Clinical Results (Before & After):</h5>
+        <div class="grid grid-cols-2 gap-3 mb-6">
+          <div class="relative rounded-xl overflow-hidden bg-gray-100 border border-[#d8ded5]">
+            <span class="absolute top-2 left-2 bg-[#24342f]/80 text-white text-[10px] px-2 py-0.5 rounded font-bold">Before</span>
+            <img id="modalTrtBeforeImg" src="" alt="Before" class="w-full h-44 object-cover" />
+          </div>
+          <div class="relative rounded-xl overflow-hidden bg-gray-100 border border-[#d8ded5]">
+            <span class="absolute top-2 left-2 bg-[#d99a21] text-white text-[10px] px-2 py-0.5 rounded font-bold">After Care</span>
+            <img id="modalTrtAfterImg" src="" alt="After" class="w-full h-44 object-cover" />
+          </div>
+        </div>
+
+        <button onclick="bookTreatmentFromModal()" class="primary-button w-full py-3 font-bold text-sm">Book This Treatment Now</button>
+      </div>
+    </div>
+
+    <!-- Hospital Premises & Infrastructure -->
+    <section id="premises" class="mb-16">
+      <p class="eyebrow text-center">Hospital Environment & Standards</p>
+      <h3 class="text-3xl text-center font-bold font-serif mt-2">State-of-the-Art Infrastructure</h3>
+      <p class="text-center text-[#587067] max-w-xl mx-auto mt-3 text-sm">Every inch of our clinic is engineered for patient comfort, medical safety, and clinical sterility.</p>
+      <div id="premisesContainer" class="mt-10 grid gap-6 md:grid-cols-2"></div>
+    </section>
+
+   
+
+    <!-- Doctors & Specialists -->
+    <section id="doctors" class="mb-16">
+      <p class="eyebrow text-center">Qualified Medical Practitioners</p>
+      <h3 class="text-3xl text-center font-bold font-serif mt-2">Meet Our Chief Specialists</h3>
+      <p class="text-center text-[#587067] max-w-xl mx-auto mt-3 text-sm">Direct consultations, transparent diagnoses, and customized prescriptions.</p>
+      <div id="doctorsContainer" class="mt-10 grid gap-6"></div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section id="book" class="soft-card bg-[#284d43] text-white p-8 sm:p-12 mb-16 shadow-[10px_10px_0_rgba(40,77,67,0.15)]">
+      
+      <div id="bookingClosedNotice" class="hidden bg-[#fee2e2] text-[#991b1b] border border-[#f87171] p-5 rounded-xl mb-6 font-semibold text-base text-center">
+        ⚠️ Appointments for today are paused. Please come back tomorrow to book the appointment.
+      </div>
+
+      <div id="bookingFormWrapper">
+        <p class="eyebrow !text-[#d99a21]">Direct Intake</p>
+        <h3 class="text-3xl font-bold font-serif mt-2">Schedule Your Clinic Appointment</h3>
+        <p class="text-[#dce7df] text-sm mt-2 mb-8">Submit your consultation request. Our receptionist will assign your exact appointment time.</p>
+
+        <form id="publicBookingForm" class="grid gap-5 sm:grid-cols-2">
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-bold mb-2">Patient Name</label>
+            <input type="text" id="pName" class="form-control text-black" required placeholder="Full Name" />
+          </div>
+          <div>
+            <label class="block text-sm font-bold mb-2">Mobile Number</label>
+            <input type="tel" id="pPhone" class="form-control text-black" required placeholder="10-digit mobile number" />
+          </div>
+          <div>
+            <label class="block text-sm font-bold mb-2">Age</label>
+            <input type="number" id="pAge" class="form-control text-black" required placeholder="e.g. 27" min="1" max="110" />
+          </div>
+          <div class="sm:col-span-2">
+            <label class="block text-sm font-bold mb-2">Place (City / Area)</label>
+            <input type="text" id="pPlace" class="form-control text-black" required placeholder="e.g. Patil Nagar, Hospet" />
+          </div>
+          <div class="sm:col-span-2">
+            <button type="submit" class="primary-button w-full py-4 font-bold text-base mt-2">Submit Consultation Request</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Clinic Address & Contact Footer -->
+    <footer id="location" class="soft-card bg-white p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div>
+        <h4 class="font-serif text-lg font-bold text-[#284d43] mb-2">Sri Sai Skin & Hair Clinic</h4>
+        <p class="text-sm text-[#587067] mb-3">Station Road, Near Puneeth Rajkumar Circle,<br>Adjacent to Ashwini Hospital, Patil Nagar,<br>Hosapete, Karnataka - 583201</p>
+        <a href="https://www.google.com/maps/search/?api=1&query=Sri%20Sai%20Skin%20%26%20Hair%20Clinic%20Station%20Rd%2C%20near%20Puneeth%20Rajkumar%20Circle%2C%20adjacent%20to%20Ashwini%20Hospital%2C%20Patel%20Nagar%2C%20Hosapete%2C%20Karnataka%20583201%2C%20India" target="_blank" class="primary-button text-xs font-bold px-4 py-2 inline-flex items-center gap-1.5">
+          📍 View on Google Maps
+        </a>
+      </div>
+      <div>
+        <h4 class="font-serif text-lg font-bold text-[#284d43] mb-2">Appointments & Enquiries</h4>
+        <p class="text-sm text-[#587067] mb-2">
+          <strong>Phone:</strong> 
+          <a href="tel:+919988443959" class="text-[#284d43] font-semibold underline hover:text-[#d99a21]">9988443959</a> / 
+          <a href="tel:+919988443818" class="text-[#284d43] font-semibold underline hover:text-[#d99a21]">9988443818</a>
+        </p>
+        <p class="text-sm text-[#587067] mb-3"><strong>Consultation Timings:</strong><br>Morning: 10:00 AM – 1:00 PM<br>Evening: 5:00 PM – 8:00 PM</p>
+        <a href="tel:+919988443959" class="primary-button text-xs font-bold px-4 py-2 inline-flex items-center gap-1.5">
+          📞 Call Clinic Directly
+        </a>
+      </div>
+    </footer>
+   </main>
+
+   <footer class="w-full bg-[#1c332c] px-5 py-6 text-center text-[#dce7df] text-sm mt-12">
+    <p>Sri Sai Skin & Hair Clinic • Complete Skin, Hair & Laser Solutions.</p>
+   </footer>
+  </div>
+  
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="shared.js"></script>
+  <script src="app.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
